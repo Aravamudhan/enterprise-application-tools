@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	<!--To enable annotations -->
+	<context:component-scan base-package="com.amudhan.springcore.autowiring"/>
+	<!-- No need to use annotation-config since component-scan implicitly enables it -->
+	<!-- <context:annotation-config></context:annotation-config> -->
+	<!-- <bean id="scorsese" class="com.amudhan.springcore.autowiring.Director" p:name="Scorsese" p:id="1"></bean>
+	<bean id="nolan" class="com.amudhan.springcore.autowiring.Director" p:name="Nolan" p:id="2"></bean>
+	<bean id="spielberg" class="com.amudhan.springcore.autowiring.Director" p:name="Spielberg" p:id="3"></bean>
+	<bean id="hitchcock" class="com.amudhan.springcore.autowiring.Director" p:name="Hitchcock" p:id="4"></bean>
+	<bean id="cameron" class="com.amudhan.springcore.autowiring.Director" p:name="Cameron" p:id="5"></bean>
+	
+	<bean id="al" class="com.amudhan.springcore.autowiring.Actor" p:name="Al Pacino" p:id="1"></bean>
+	<bean id="damon" class="com.amudhan.springcore.autowiring.Actor" p:name="Damon" p:id="2"></bean>
+	<bean id="clooney" class="com.amudhan.springcore.autowiring.Actor" p:name="Clooney" p:id="3"></bean>
+	<bean id="dicaprio" class="com.amudhan.springcore.autowiring.Actor" p:name="DiCaprio" p:id="4"></bean>
+	<bean id="cruise" class="com.amudhan.springcore.autowiring.Actor" p:name="Cruise" p:id="5"></bean>
+	
+	<bean id="godfather" class="com.amudhan.springcore.autowiring.Movie" p:name="God father"></bean>
+	<bean id="wow" class="com.amudhan.springcore.autowiring.Movie" p:name="War of the World"></bean> -->
+</beans>

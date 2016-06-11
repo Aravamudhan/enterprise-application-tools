@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!--To enable annotations -->
+	<context:annotation-config></context:annotation-config>
+	<!-- Example for setting constructor arguments by c-namespace -->
+	<bean id="testBeanConstructorProperties" class="com.amudhan.springcore.TestBean" c:name="Amudhan" c:country="India"/>
+	
+	<!-- CountryQualifier is an example of custom qualifiers -->
+	<bean class="com.amudhan.springcore.contact.Country" p:id="1" p:name="Canada">
+		<qualifier type="CountryQualifier">
+			<attribute key="name" value="1"></attribute>
+		</qualifier>
+	</bean>
+	<bean class="com.amudhan.springcore.contact.Country" p:id="2" p:name="Australia">
+		<qualifier type="CountryQualifier">
+			<attribute key="name" value="2"></attribute>
+		</qualifier>
+	</bean>
+	<bean class="com.amudhan.springcore.contact.Country" p:id="3" p:name="U.S.A">
+		<qualifier type="CountryQualifier">
+			<attribute key="name" value="3"></attribute>
+		</qualifier>
+	</bean>
+	<bean class="com.amudhan.springcore.contact.Country" p:id="4" p:name="India">
+		<qualifier value="4"/>
+	</bean>
+	<bean id="address" class="com.amudhan.springcore.contact.Address"/>
+	
+	<bean id="testBeanByType" class="com.amudhan.springcore.TestBean" p:teamLead-ref="teamLead">
+		<constructor-arg value="80" type="int"></constructor-arg>
+		<constructor-arg value="Aemon" index="0"></constructor-arg>
+	</bean>
+	<!-- Example for autowiring by name. There is a manager property which would be autowired. -->
+	<bean id="project" class="com.amudhan.springcore.Project" autowire="byName" p:name="Micrasoft"/>
+	
+	<!-- The example for injecting collections -->
+	<bean id="collectionTestBean" class="com.amudhan.springcore.CollectionTestBean">
+		<property name="list">
+			<list>
+				<value>Jon</value>
+				<value>Stan</value>
+				<value>Arthur</value>
+				<value>Swan</value>
+			</list>
+		</property>
+		<property name="map">
+			<map>
+				<entry key="1" value="Ygritte"></entry>
+				<entry key="2" value="Dalla"></entry>
+			</map>
+		</property>
+		<property name="properties">
+			<props>
+				<prop key="North">Dreadfort</prop>
+				<prop key="South">Dorne</prop>
+				<prop key="West">Casterly rock</prop>
+			</props>
+		</property>
+		<property name="set">
+			<set>
+				<value>1991</value>
+				<value>1990</value>
+			</set>
+		</property>
+	</bean>
+	<!-- The bean definition is an example for merging between collections -->
+	<bean id="childBean" parent="collectionTestBean" class="com.amudhan.springcore.CollectionTestBean">
+		<property name="list">
+			<list merge="true">
+				<value>Jon</value>
+				<value>Bran</value>
+				<value>Rickon</value>
+				<value>Swan</value>
+			</list>
+		</property>
+		<property name="map">
+			<map merge="true">
+				<entry key="2" value="Ygritte"></entry>
+				<entry key="3" value="Val"></entry>
+			</map>
+		</property>
+		<property name="properties">
+			<props merge="true">
+				<prop key="North">Winterfell</prop>
+				<prop key="South">Reach</prop>
+				<prop key="East">Vale</prop>
+			</props>
+		</property>
+		<property name="set">
+			<set merge="true">
+				<value>1991</value>
+				<value>1990</value>
+			</set>
+		</property>
+	</bean>
+</beans>

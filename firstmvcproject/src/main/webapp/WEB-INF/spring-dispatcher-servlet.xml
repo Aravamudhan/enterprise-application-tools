@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    
+    <!-- Will activate already registered beans -->
+    <context:annotation-config />
+    <!-- Will scan packages to register beans and activate them -->
+    <context:component-scan base-package="com.amudhan"></context:component-scan>
+    <!-- To enable Spring MVC components with default configurations -->
+    <mvc:annotation-driven></mvc:annotation-driven> 
+    <mvc:interceptors>
+    	
+    	<mvc:interceptor>
+    		<mvc:mapping path="/admissionForm.htm"/> <!-- Interceptors will be called only for this path -->
+    		<bean class="com.amudhan.controller.DayOfWeekBasedAccessInterceptor"/>
+    	</mvc:interceptor>
+    	<!-- To change locale -->
+    	<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+    		<property name="paramName" value="siteLanguage"></property>
+    	</bean>
+    	<!-- To change themes -->
+    	<bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor">
+    		<property name="paramName" value="siteTheme"></property>
+    	</bean>
+    </mvc:interceptors>
+    <bean id="viewResolver"
+    	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    	<property name="prefix">
+    		<value>/WEB-INF/</value>
+    	</property>
+    	<property name="suffix">
+    		<value>.jsp</value>
+    	</property>
+    </bean>
+    <!-- If the CookieLocalResolver is not injected, spring will take the default language that is sent in the request's accept header locale 
+    	 If specified, spring will look for cookies in the client browser, if not will use default language present and set a cookie based on that-->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+    	<property name="defaultLocale" value="en"></property>
+    	<property name="cookieName" value="localeCookie"></property>
+    	<property name="cookieMaxAge" value="36000"></property>
+    </bean>
+    <bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource">
+    	<property name="basenamePrefix" value="theme-"></property>
+    </bean>
+    <bean id="themeResolver" class="org.springframework.web.servlet.theme.CookieThemeResolver">
+    	<property name="defaultThemeName" value="green"></property>
+    </bean>
+    <bean id="messageSource"
+    	class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    	<property name="basename" value="/WEB-INF/springmessages"></property>
+    	<!-- To avoid restarting server every time property file changes. 
+    	Every second changes are loaded that are made in run time. Should be avoided in production environment-->
+    	<property name="cacheSeconds" value="1"></property>	
+    </bean>
+    <!-- The bean definitions below handles exceptions and maps them to specific view names to be returned 
+    to the client -->
+    <!-- <bean id="simpleMappingExceptionResolver" 
+    	class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+    	<property name="exceptionMappings">
+    		<map>
+    			<entry key="NullPointerException" value="nullpointerexception"/>
+    			<entry key="IOException" value="ioexception"/>
+    		</map>
+    	</property>
+    	<property name="defaultErrorView" value="serverexception"></property>
+    	A logger to use to log exceptions
+    	<property name="warnLogCategory" value="MVCLogger"></property>
+    </bean> -->
+</beans>
