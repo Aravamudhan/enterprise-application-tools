@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="com.amudhan.springcore.conversion"/>
+	<!-- Here a factory bean is called to create a bean of type ConversionService. 
+	For any class that implements FactoryBean<T>, spring uses that class as a factory and
+	creates the bean specified in the type parameter. Hence no bean of type 
+	ConversionServiceFactoryBean is created, but spring calls and returns a bean of type
+	ConversionService-->  
+	<bean id="conversionService"
+			class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+	        <list>
+	            <ref bean="stringToBook"/>
+	            <ref bean="bookToDocumentary"/>
+	            <ref bean="bookToMovie"/>
+	        </list>
+    	</property>
+	</bean>
+	<bean id="topSellingBook" 
+			class="com.amudhan.springcore.conversion.TopSellingBook">
+		<property name="book" value="A song of ice and fire,Fantasy"/>
+	</bean>
+</beans>

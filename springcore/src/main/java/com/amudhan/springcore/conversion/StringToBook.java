@@ -1,7 +1,11 @@
 package com.amudhan.springcore.conversion;
 
-import org.springframework.core.convert.converter.Converter;
 
+
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+@Component
 public class StringToBook implements Converter<String,Book> {
 
 	@Override

@@ -1,40 +1,44 @@
 package com.amudhan.springcore.conversion;
 
 import java.util.List;
-import java.util.Scanner;
 
-import org.springframework.core.convert.converter.Converter;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.core.convert.support.GenericConversionService;
 
 public class ConversionServiceApp {
+	
+	private static ApplicationContext context;
+	private static TopSellingBook topSellingBook;
+	private static ConversionService conversionService;
 
 	public static void main(String[] args) {
-		@SuppressWarnings("resource")
-		Scanner in=new Scanner(System.in);
+		context=new ClassPathXmlApplicationContext("conversionserviceconfig.xml");
+		conversionService=(ConversionService) context.getBean("conversionService");
+
+		/*for(String s:context.getBeanDefinitionNames())
+			System.out.println(s);*/
 		
-		GenericConversionService conversionService=new DefaultConversionService();
+		topSellingBook=(TopSellingBook)context.getBean("topSellingBook");
+		System.out.println(topSellingBook);
+		Movie movie=((ConversionService) conversionService).convert(topSellingBook.getBook(), Movie.class);
+		System.out.println(movie);
+		Documentary documentary=((ConversionService) conversionService).convert(topSellingBook.getBook(), Documentary.class);
+		System.out.println(documentary);
+		
 		String source="one,two,three";
 		stringToArray(source,conversionService);
 		stringToList(source,conversionService);
-		
-		GenericConversionService userDefinedConversionService=new GenericConversionService();
-		Converter<String,Book> converter=new StringToBook();
-		userDefinedConversionService.addConverter(converter);
-		System.out.println("Enter a book's name and category separated by coma: ");
-		String bookDetails=in.nextLine();
-		Book book=userDefinedConversionService.convert(bookDetails,Book.class);
-		System.out.println(book);
 	}
-	public static void stringToArray(String source,GenericConversionService conversionService){
-		System.out.println("In String to String[]");
+	public static void stringToArray(String source,ConversionService conversionService){
 		String[] target= conversionService.convert(source, String[].class);
 		for(String s:target){
-			System.out.println(s);
+			System.out.print(s+" ");
 		}
 	}
-	public static void stringToList(String source,GenericConversionService conversionService){
-		System.out.println("In String to List");
+	public static void stringToList(String source,ConversionService conversionService){
 		@SuppressWarnings("unchecked")
 		List<String> target= (List<String>)conversionService.convert(source, List.class);
 		System.out.println(target);
