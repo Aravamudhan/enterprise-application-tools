@@ -1,4 +1,4 @@
 package com.amudhan.springcore.conversion;
 
-public interface Medium {
-}
+/*This is a marker interface. Movie and Documentary classes implement this.*/
+public interface Medium {}

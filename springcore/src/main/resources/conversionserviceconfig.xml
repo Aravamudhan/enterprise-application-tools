@@ -18,6 +18,7 @@
 			class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
 	        <list>
+	        <!-- The bean references are from the beans created during component-scan -->
 	            <ref bean="stringToBook"/>
 	            <ref bean="bookToDocumentary"/>
 	            <ref bean="bookToMovie"/>
@@ -26,6 +27,9 @@
 	</bean>
 	<bean id="topSellingBook" 
 			class="com.amudhan.springcore.conversion.TopSellingBook">
+			<!-- Here the property book which is of type Book, is set with string value.
+			Spring will search the ConverterService bean to look for the registered converters.
+			On finding the appropriate converter conversion takes place.-->
 		<property name="book" value="A song of ice and fire,Fantasy"/>
 	</bean>
 </beans>

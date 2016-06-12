@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.support.DefaultConversionService;
-import org.springframework.core.convert.support.GenericConversionService;
 
 public class ConversionServiceApp {
 	
@@ -23,11 +21,18 @@ public class ConversionServiceApp {
 		
 		topSellingBook=(TopSellingBook)context.getBean("topSellingBook");
 		System.out.println(topSellingBook);
+
+		/*By calling with the source object and target type conversion is possible, because
+		 *the converters to convert Book object to Movie/Documentary are already added to the conversionService
+		bean.*/
 		Movie movie=((ConversionService) conversionService).convert(topSellingBook.getBook(), Movie.class);
 		System.out.println(movie);
 		Documentary documentary=((ConversionService) conversionService).convert(topSellingBook.getBook(), Documentary.class);
 		System.out.println(documentary);
-		
+
+		/*DefaultConversionService, which is an implementation of ConversionService,
+		 * contains default converters for few types. The methods stringtoArray/List use those converters
+		 * for the conversions.*/
 		String source="one,two,three";
 		stringToArray(source,conversionService);
 		stringToList(source,conversionService);
