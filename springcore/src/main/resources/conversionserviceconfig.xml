@@ -9,6 +9,7 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:component-scan base-package="com.amudhan.springcore.conversion"/>
+	<context:component-scan base-package="com.amudhan.springcore.formatter"/>
 	<!-- Here a factory bean is called to create a bean of type ConversionService. 
 	For any class that implements FactoryBean<T>, spring uses that class as a factory and
 	creates the bean specified in the type parameter. Hence no bean of type 
@@ -31,5 +32,14 @@
 			Spring will search the ConverterService bean to look for the registered converters.
 			On finding the appropriate converter conversion takes place.-->
 		<property name="book" value="A song of ice and fire,Fantasy"/>
+	</bean>
+	
+	<bean id="formattingConversionService"
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="formatters">
+            <set>
+                <ref bean="debitCardNumberFormatter"/>
+            </set>
+        </property>
 	</bean>
 </beans>
