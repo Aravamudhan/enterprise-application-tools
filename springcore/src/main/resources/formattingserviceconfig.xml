@@ -10,28 +10,31 @@
 
 	<context:component-scan base-package="com.amudhan.springcore.conversion"/>
 	<context:component-scan base-package="com.amudhan.springcore.formatter"/>
-	<!-- Here a factory bean is called to create a bean of type ConversionService. 
-	For any class that implements FactoryBean<T>, spring uses that class as a factory and
-	creates the bean specified in the type parameter. Hence no bean of type 
-	ConversionServiceFactoryBean is created, but spring calls and returns a bean of type
-	ConversionService-->  
+	
 	<bean id="conversionService"
-			class="org.springframework.context.support.ConversionServiceFactoryBean">
-		<property name="converters">
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="formatters">
+            <set>
+                <ref bean="debitCardNumberFormatter"/>
+            </set>
+        </property>
+        <property name="converters">
 	        <list>
-	        The bean references are from the beans created during component-scan
+	        <!-- The bean references are from the beans created during component-scan -->
 	            <ref bean="stringToBook"/>
 	            <ref bean="bookToDocumentary"/>
 	            <ref bean="bookToMovie"/>
 	        </list>
     	</property>
 	</bean>
+	<bean id="cardDetails" class="com.amudhan.springcore.formatter.CardDetails">
+		<property name="debitCardNumber" value="1235-1252-3422-2345"></property>
+	</bean>
 	<bean id="topSellingBook" 
 			class="com.amudhan.springcore.conversion.TopSellingBook">
 			<!-- Here the property book which is of type Book, is set with string value.
-			Spring will search the ConverterService bean to look for the registered converters.
+			Spring will search the ConversionService bean to look for the registered converters.
 			On finding the appropriate converter conversion takes place. -->
 		<property name="book" value="A song of ice and fire,Fantasy"/>
 	</bean>
-	
 </beans>
