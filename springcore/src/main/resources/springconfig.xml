@@ -3,16 +3,19 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
-	<!-- Using annotations to mark init and destroy methods. The below line to define common default methods for
-	 all the beans-->
+	<!-- Using annotations to mark init and destroy methods. The below line 
+		to define common default methods for all the beans -->
 	<!-- default-init-method="init" default-destroy-method="destroy" -->
 	<!-- To define life cycle methods specifically for a bean -->
 	<!-- <bean id='..' class='..' init-method='init' destroy-method='destroy'></bean> -->
-	
-	<bean id="employeeDetails" class="com.amudhan.springcore.EmployeeDetails" scope="singleton" lazy-init="true">
-		<!-- lazy-init makes the bean to be not to be instantiated when the application starts, but only when it is referenced -->
+
+	<bean id="employeeDetails" class="com.amudhan.springcore.EmployeeDetails"
+		scope="singleton" lazy-init="true">
+		<!-- lazy-init makes the bean to be not to be instantiated when the application 
+			starts, but only when it is referenced -->
 		<property name="welcomeNote" value="Welcome to employee details"></property>
-		<property name="greeting" value="This is a greeting from the configuration file"></property>
+		<property name="greeting"
+			value="This is a greeting from the configuration file"></property>
 		<property name="projects">
 			<list>
 				<value>Cab management system</value>
@@ -21,64 +24,72 @@
 		</property>
 		<constructor-arg ref="manager"></constructor-arg>
 	</bean>
-	
-	<!-- The following bean is created by using the static factory method of the class TeamLead.
-	Its arguments can be passed as constructor based injection. It has same rules as the constructor based injection. -->
-	<bean id="teamLead" class="com.amudhan.springcore.TeamLead" factory-method="createInstance" scope="prototype">
-		<constructor-arg value="Jon"/>
-		<constructor-arg value="Hello from Jon by static factory method"/>
-		<constructor-arg value="Castle Black"/>
+
+	<!-- The following bean is created by using the static factory method of 
+		the class TeamLead. Its arguments can be passed as constructor based injection. 
+		It has same rules as the constructor based injection. -->
+	<bean id="teamLead" class="com.amudhan.springcore.TeamLead"
+		factory-method="createInstance" scope="prototype">
+		<constructor-arg value="Jon" />
+		<constructor-arg value="Hello from Jon by static factory method" />
+		<constructor-arg value="Castle Black" />
 	</bean>
-	
-	<!-- The following bean is created usually but it serves as a factory bean.
-	It can inject manager and teamLead beans -->
+
+	<!-- The following bean is created usually but it serves as a factory bean. 
+		It can inject manager and teamLead beans -->
 	<bean id="instanceBeanFactory" class="com.amudhan.springcore.InstanceBeanFactory">
 		<constructor-arg ref="manager"></constructor-arg>
 		<constructor-arg ref="teamLead"></constructor-arg>
 	</bean>
-	<!-- The instanceBeanFactory bean has instance factory method called createTeamLeadInstance.
-	That method injects a bean of type teamLead-->
-	<bean id="teamLeadInstanceFactory" factory-bean="instanceBeanFactory" factory-method="createTeamLeadInstance">
-		<property name="greeting" value="Greeting from TeamLead created by instance factory bean"></property>
+	<!-- The instanceBeanFactory bean has instance factory method called createTeamLeadInstance. 
+		That method injects a bean of type teamLead -->
+	<bean id="teamLeadInstanceFactory" factory-bean="instanceBeanFactory"
+		factory-method="createTeamLeadInstance">
+		<property name="greeting"
+			value="Greeting from TeamLead created by instance factory bean"></property>
 	</bean>
-	
+
 	<!-- By using alias, more than one name can be assigned to a bean -->
 	<alias name="employeeDetails" alias="employeeDetailsManager"></alias>
-	
+
 	<bean id="manager" class="com.amudhan.springcore.Manager">
 		<property name="employeeName" value="AmudhanManager"></property>
 		<property name="greeting" value="${greeting}"></property>
 	</bean>
-	
+
 	<!-- It enables annotations which are disabled by default. -->
-	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"></bean>
-	
+	<bean
+		class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"></bean>
+
 	<bean class="com.amudhan.springcore.BeanPostProcessorClass">
 		<property name="orderPriority" value="1"></property>
 	</bean>
-	
+
 	<bean class="com.amudhan.springcore.AnotherBeanPostProcessor">
 		<property name="orderPriority" value="0"></property>
 	</bean>
-	
+
 	<bean class="com.amudhan.springcore.BeanFactoryPostProcessorClass"></bean>
-	
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<value>classpath:spring.properties</value>
 		</property>
 	</bean>
-	<!-- Whatever property value is defined in this property file will be used first. 
-	If a property is not available in this file then only its value will be taken the bean definition -->
-	<bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+	<!-- Whatever property value is defined in this property file will be used 
+		first. If a property is not available in this file then only its value will 
+		be taken the bean definition -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
 		<property name="locations">
 			<value>classpath:springoverride.properties</value>
 		</property>
 	</bean>
-	
+
 	<bean id="testBean" class="com.amudhan.springcore.TestBean">
 		<constructor-arg name="name" value="Amudhan"></constructor-arg>
 		<constructor-arg name="country" value="India"></constructor-arg>
 	</bean>
-	
+
 </beans>

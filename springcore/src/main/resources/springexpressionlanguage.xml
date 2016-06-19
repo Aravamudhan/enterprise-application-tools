@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="com.amudhan.springcore.springExpressionLanguage"/>
+	<!-- By using SpEl a random integer value generated and injected into the 
+		randomNumberGenerator bean, is retrieved and injected agin into this threeDigitRandomNumber 
+		bean of type Integer. With the help SpEl methods/property of any bean in the container can be used-->
+	<bean id="threeDigitRandomNumber" class="java.lang.Integer">
+		<constructor-arg value="#{randomNumberGenerator.getDigitThreeRandomNumber()}"/>
+	</bean>
+</beans>
