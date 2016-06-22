@@ -8,7 +8,8 @@
   <packaging>jar</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<org.springframework.version>4.3.0.RELEASE</org.springframework.version>		
+	<org.springframework.version>4.3.0.RELEASE</org.springframework.version>
+	<aspectj.version>1.7.4</aspectj.version>
   </properties>
 
   <name>springcore</name>
@@ -31,10 +32,15 @@
 		<version>${org.springframework.version}</version>
 	</dependency>
 	<dependency>
-    	<groupId>aspectj</groupId>
+    	<groupId>org.aspectj</groupId>
     	<artifactId>aspectjrt</artifactId>
-    	<version>1.5.4</version>
+    	<version>${aspectj.version}</version>
 	</dependency>
+	<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjtools</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
 	<dependency>
 		<groupId>commons-logging</groupId>
 		<artifactId>commons-logging</artifactId>

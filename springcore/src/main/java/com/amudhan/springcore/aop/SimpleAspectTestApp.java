@@ -12,5 +12,6 @@ public class SimpleAspectTestApp {
 		ApplicationContext context = new AnnotationConfigApplicationContext(AspectConfig.class);
 		Contact contact = (Contact)context.getBean("contact");
 		contact.setMailId("testmail@mail.com");
+		System.out.println(contact);
 	}
 }

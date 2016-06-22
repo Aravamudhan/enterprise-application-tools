@@ -1,15 +1,21 @@
 package com.amudhan.springcore.aop;
 
-import org.aopalliance.intercept.Joinpoint;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Component;
 
 @Aspect
+@Component
 class AspectClassOne {
 	
-	@Before("execution(*com.amudhan.springcore.validation.Contact.setMailId(...))")
-	public void beforeAdvice(Joinpoint jointPoint){
-		System.out.println("Before setting mail id for a contact");
+		
+	@After("execution(* com.amudhan.springcore.validation.Contact.setMailId(..))")
+	public void afterAdvice(JoinPoint jointPoint) throws Throwable{
+		
+		String mailId = (String)jointPoint.getArgs()[0];
+		System.out.println("The mail id being set is "+ mailId);
+		System.out.println("After setting mail id");
 	}
 
 }
