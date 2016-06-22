@@ -9,6 +9,7 @@ import com.amudhan.springcore.validation.Contact;
 
 @Configuration
 @ComponentScan(basePackages="com.amudhan.springcore.aop")
+@ComponentScan(basePackages="com.amudhan.springcore.autowiring")
 @EnableAspectJAutoProxy
 public class AspectConfig {
 	
