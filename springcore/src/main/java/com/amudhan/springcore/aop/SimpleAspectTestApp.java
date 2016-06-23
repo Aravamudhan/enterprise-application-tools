@@ -4,7 +4,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.amudhan.springcore.autowiring.Movie;
-import com.amudhan.springcore.autowiring.MovieCatalogue;
+import com.amudhan.springcore.javaBasedConfiguration.Department;
+import com.amudhan.springcore.javaBasedConfiguration.Student;
 import com.amudhan.springcore.validation.Contact;
 
 
@@ -19,5 +20,10 @@ public class SimpleAspectTestApp {
 		Movie movie=(Movie)context.getBean("movie");
 		movie.setName("Godfather");
 		movie.getName();
+		
+		Student student=(Student)context.getBean("student");
+		Department department = (Department)context.getBean("department");
+		department.setName("Computer Science");
+		student.setDepartment(department);
 	}
 }

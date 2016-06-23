@@ -5,6 +5,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
+import com.amudhan.springcore.javaBasedConfiguration.Department;
+import com.amudhan.springcore.javaBasedConfiguration.Student;
 import com.amudhan.springcore.validation.Contact;
 
 @Configuration
@@ -17,6 +19,16 @@ public class AspectConfig {
 	public Contact contact(){
 		Contact contact = new Contact();
 		return contact;
+	}
+	
+	@Bean
+	public Student student() {
+		return new Student();
+	}
+	
+	@Bean
+	public Department department() {
+		return new Department();
 	}
 
 }
