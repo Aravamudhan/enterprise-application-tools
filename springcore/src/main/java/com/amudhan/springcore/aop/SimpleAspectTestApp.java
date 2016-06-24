@@ -25,5 +25,8 @@ public class SimpleAspectTestApp {
 		Department department = (Department)context.getBean("department");
 		department.setName("Computer Science");
 		student.setDepartment(department);
+		
+		Account account = (Account)context.getBean("account");
+		account.getAccountName();
 	}
 }

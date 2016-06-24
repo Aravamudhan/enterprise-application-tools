@@ -30,5 +30,10 @@ public class AspectConfig {
 	public Department department() {
 		return new Department();
 	}
+	
+	@Bean
+	public Account account() {
+		return new Account("Personal");
+	}
 
 }
