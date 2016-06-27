@@ -10,6 +10,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<org.springframework.version>4.3.0.RELEASE</org.springframework.version>
 	<aspectj.version>1.7.4</aspectj.version>
+	<slf4j.version>1.7.21</slf4j.version>
+	<junit.version>3.8.1</junit.version>
+	<commons-logging.version>1.2</commons-logging.version>
   </properties>
 
   <name>springcore</name>
@@ -40,16 +43,21 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjtools</artifactId>
 			<version>${aspectj.version}</version>
-		</dependency>
+	</dependency>
+	<dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-simple</artifactId>	
+    	<version>${slf4j.version}</version>
+	</dependency>
 	<dependency>
 		<groupId>commons-logging</groupId>
 		<artifactId>commons-logging</artifactId>
-		<version>1.2</version>
+		<version>${commons-logging.version}</version>
 	</dependency>
     <dependency>
      	<groupId>junit</groupId>
       	<artifactId>junit</artifactId>
-      	<version>3.8.1</version>
+      	<version>${junit.version}</version>
       	<scope>test</scope>
     </dependency>
   </dependencies>
