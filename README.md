@@ -1,5 +1,5 @@
-This repo is work in progress. I am going to be creating implementations of APIs and concepts from the documentations
-of spring. This repo will be helpful if you are going through the related documentation and need 
+This repo is work in progress. I am going to be creating implementations of APIs and concepts from the documentation
+of Spring framework, version 4. This repo will be helpful if you are going through spring documentation and need 
 quick working examples of the APIs. 
 
 #firstmvc project
