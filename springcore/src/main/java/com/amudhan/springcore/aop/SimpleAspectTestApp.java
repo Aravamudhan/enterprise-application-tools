@@ -8,22 +8,27 @@ import com.amudhan.springcore.javaBasedConfiguration.Department;
 import com.amudhan.springcore.javaBasedConfiguration.Student;
 import com.amudhan.springcore.validation.Contact;
 
-
 public class SimpleAspectTestApp {
-	
-	public static void main(String[] args){
-		ApplicationContext context = new AnnotationConfigApplicationContext(AspectConfig.class);
-		Contact contact = (Contact)context.getBean("contact");
+
+	public static void main(String[] args) {
+		ApplicationContext context = new AnnotationConfigApplicationContext(
+				AspectConfig.class);
+		Contact contact = (Contact) context.getBean("contact");
 		contact.setMailId("testmail@mail.com");
 		contact.getMailId();
-		
-		Movie movie=(Movie)context.getBean("movie");
+
+		Movie movie = (Movie) context.getBean("movie");
 		movie.setName("Godfather");
 		movie.getName();
-		
-		Student student=(Student)context.getBean("student");
-		Department department = (Department)context.getBean("department");
+
+		Student student = (Student) context.getBean("student");
+		Department department = (Department) context.getBean("department");
 		department.setName("Computer Science");
+		student.setName("Amudhan");
 		student.setDepartment(department);
+		System.out.println(student.getName());
+
+		Account account = (Account) context.getBean("account");
+		account.getAccountName();
 	}
 }
