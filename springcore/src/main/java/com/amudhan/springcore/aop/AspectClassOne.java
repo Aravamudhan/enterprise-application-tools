@@ -1,5 +1,7 @@
 package com.amudhan.springcore.aop;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -17,6 +19,7 @@ import com.amudhan.springcore.javaBasedConfiguration.Department;
 @Component
 class AspectClassOne {
 
+	private final Logger logger = LogManager.getLogger(AspectClassOne.class); 
 	/*
 	 * A join point is any public method which returns a String. The return
 	 * type, name and the arguments list are must. For return type and name to
@@ -39,22 +42,18 @@ class AspectClassOne {
 	}
 
 	@Around("execution(* com.amudhan.springcore.validation.Contact.get*(..))")
-	public Object afterAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
-		System.out
-				.println("-----------------------------------------------------");
-		System.out.println("execution:Around execution of the method "
-				+ joinPoint.getSignature().getName());
+	public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
+		logger.traceEntry();
+		logger.info(joinPoint.getSignature().getName());
 		Object returnValue = joinPoint.proceed();
-		System.out.println("The get method's return value " + returnValue);
+		logger.info("The get method's return value", returnValue);
+		logger.traceExit();
 		return returnValue;
 	}
 
 	@Before("publicMethodsThatReturnString()")
 	public void beforeAdvice(JoinPoint joinPoint) throws Throwable {
-		System.out
-				.println("-----------------------------------------------------");
-		System.out.println("execution:Before execution of the method "
-				+ joinPoint.getSignature().getName());
+		logger.info(joinPoint.getSignature().getName());
 	}
 
 	/*
@@ -64,11 +63,7 @@ class AspectClassOne {
 	@Around("methodBeginningWithSet()")
 	public void aroundAdviceForMethodBeginningWithSet(
 			ProceedingJoinPoint joinPoint) throws Throwable {
-		System.out
-				.println("-----------------------------------------------------");
-		System.out
-				.println("execution:Around execution of the method beginning with set "
-						+ joinPoint.getSignature().getName());
+		logger.info(joinPoint.getSignature().getName());
 		joinPoint.proceed();
 	}
 
@@ -79,31 +74,22 @@ class AspectClassOne {
 	 */
 	@Around("execution(String com.amudhan..*.Student.getName())")
 	public String getName(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-		System.out
-				.println("-----------------------------------------------------");
-		System.out.println("execution: Around before calling proceed on : "+ proceedingJoinPoint.getSignature().getName());
+		logger.info("Before calling the method using proceed "+proceedingJoinPoint.getSignature().getName());
 		String name = (String) proceedingJoinPoint.proceed();
-		System.out.println("execution: Around after calling proceed "+proceedingJoinPoint.getSignature().getName());
+		logger.info("After calling the method using proceed "+proceedingJoinPoint.getSignature().getName());
 		return "Mr. " + name;
 	}
 
 	@AfterReturning("withInAutowiring()")
 	public void afterReturningAdvice(JoinPoint joinPoint) throws Throwable {
-		System.out
-				.println("-----------------------------------------------------");
-		System.out.println("within:After returning from the method "
-				+ joinPoint.getSignature().getName());
+		logger.info(joinPoint.getSignature().getName());
 	}
 
 	@Before("args(java.lang.String)")
 	public void beforeTheMethodThatReceivesString(JoinPoint joinPoint) {
-		System.out
-				.println("-----------------------------------------------------");
-		System.out
-				.println("args:Before execution of the method that receives String "
-						+ "" + joinPoint.getSignature().getName());
+		logger.info(joinPoint.getSignature().getName());
 		for (Object object : joinPoint.getArgs()) {
-			System.out.println(object + "  ");
+			logger.info("Object "+object);
 		}
 	}
 
@@ -118,10 +104,8 @@ class AspectClassOne {
 	 */
 	@AfterReturning("methodBeginningWithSet() && args(argument)")
 	public void afterSetDepartment(JoinPoint joinPoint, Department argument) {
-		System.out
-				.println("-----------------------------------------------------");
-		System.out.println("execution:After returning from the setDepartment ");
-		System.out.println("The department name " + argument.getName());
+		logger.info(joinPoint.getSignature().getName());
+		logger.info("The department name " + argument.getName());
 	}
 
 	/*
@@ -129,18 +113,14 @@ class AspectClassOne {
 	 */
 	@Before("@annotation(auditable)")
 	public void annotationPointcut(Auditable auditable) {
-		System.out
-				.println("-----------------------------------------------------");
 		String auditableMethodName = auditable.value();
-		System.out.println("Annotation:  " + auditableMethodName);
+		logger.info("Annotation:  " + auditableMethodName);
 	}
 
 	/* Interception for the join points which implement/extend Account */
 	@After("this(Account)")
 	public void thisMethod(JoinPoint joinPoint) {
-		System.out
-				.println("-----------------------------------------------------");
-		System.out.println("this: " + joinPoint.getSignature().getName());
+		logger.info(joinPoint.getSignature().getName());
 	}
 
 }
