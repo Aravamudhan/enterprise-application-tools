@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Appenders>
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<!-- In the pattern 1st attribute is date and time.
+				2nd attribute is for priority(INFO,TRACE etc). The -5 indicates, it should be justified with 5 chars. 
+				3rd attribute thread name. 4th attribute the class name. The number 2 includes 
+				direct package name and class name. If number is increased the package name level is also 
+				increased. 5th attribute is line name with a link to that particular class -->
+			<patternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n" />
+		</Console>
+		<File name="aoplog" fileName="logs/aop.log">
+			<PatternLayout pattern="%d{DATE} %-5p [%t] %C{1} (%F:%L) - %m%n" />
+		</File>
+	</Appenders>
+
+	<Loggers>
+		<!-- <logger name="org.apache.log4j.xml" level="info" /> -->
+		<!-- logging level order with trace being highest and if trace is the level, 
+			all log statements will be recorded. trace <- debug <-info <-warn <- error 
+			<-fatal -->
+		<!-- For SimpleAspectTestApp, the level is trace, which means all the log 
+			statements will be logged -->
+		<!-- If additivity is not set to false, the log statements from SimpleAspectTestApp 
+			will be logged twice. The reason is this logger is referencing the appender. 
+			Also the root logger(ROOT) also is referencing the same appender. Hence the 
+			SimpleAspectTestApp's log statements are logged in two places. This will 
+			be a convenient feature, if the different appenders are present in the ROOT 
+			and the separate Logger. -->
+		<logger name="com.amudhan.springcore.aop.SimpleAspectTestApp"
+			level="trace" additivity="true">
+			<appenderRef ref="aoplog" />
+		</logger>
+		<!-- The root level is info. In all the log statments will be logged till 
+			info level. That means trace and debug statements will not be logged. -->
+		<Root level="info">
+			<appenderRef ref="STDOUT" />
+		</Root>
+	</Loggers>
+</Configuration>

@@ -1,5 +1,7 @@
 package com.amudhan.springcore.aop;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -10,7 +12,10 @@ import com.amudhan.springcore.validation.Contact;
 
 public class SimpleAspectTestApp {
 
+	private static final Logger logger = LoggerFactory.getLogger(SimpleAspectTestApp.class);
+	
 	public static void main(String[] args) {
+		logger.trace("Enter main method");
 		ApplicationContext context = new AnnotationConfigApplicationContext(
 				AspectConfig.class);
 		Contact contact = (Contact) context.getBean("contact");
@@ -26,9 +31,10 @@ public class SimpleAspectTestApp {
 		department.setName("Computer Science");
 		student.setName("Amudhan");
 		student.setDepartment(department);
-		System.out.println(student.getName());
+		logger.info("Student name "+student.getName());
 
 		Account account = (Account) context.getBean("account");
 		account.getAccountName();
+		logger.trace("Exit main method");
 	}
 }
