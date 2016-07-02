@@ -15,6 +15,7 @@ public class SimpleAspectTestApp {
 	private static final Logger logger = LoggerFactory.getLogger(SimpleAspectTestApp.class);
 	
 	public static void main(String[] args) {
+		logger.trace("Enter main method");
 		ApplicationContext context = new AnnotationConfigApplicationContext(
 				AspectConfig.class);
 		Contact contact = (Contact) context.getBean("contact");
@@ -34,5 +35,6 @@ public class SimpleAspectTestApp {
 
 		Account account = (Account) context.getBean("account");
 		account.getAccountName();
+		logger.trace("Exit main method");
 	}
 }

@@ -43,17 +43,19 @@ class AspectClassOne {
 
 	@Around("execution(* com.amudhan.springcore.validation.Contact.get*(..))")
 	public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
-		logger.traceEntry();
+		logger.traceEntry("aroundAdvice");
 		logger.info(joinPoint.getSignature().getName());
 		Object returnValue = joinPoint.proceed();
-		logger.info("The get method's return value", returnValue);
-		logger.traceExit();
+		logger.info("The get method's return value "+returnValue);
+		logger.traceExit("aroundAdvice");
 		return returnValue;
 	}
 
 	@Before("publicMethodsThatReturnString()")
 	public void beforeAdvice(JoinPoint joinPoint) throws Throwable {
+		logger.traceEntry("beforeAdvice");
 		logger.info(joinPoint.getSignature().getName());
+		logger.traceExit("beforeAdvice");
 	}
 
 	/*
@@ -63,8 +65,10 @@ class AspectClassOne {
 	@Around("methodBeginningWithSet()")
 	public void aroundAdviceForMethodBeginningWithSet(
 			ProceedingJoinPoint joinPoint) throws Throwable {
+		logger.traceEntry("aroundAdviceForMethodBeginningWithSet");
 		logger.info(joinPoint.getSignature().getName());
 		joinPoint.proceed();
+		logger.traceExit("aroundAdviceForMethodBeginningWithSet");
 	}
 
 	/*
@@ -74,23 +78,29 @@ class AspectClassOne {
 	 */
 	@Around("execution(String com.amudhan..*.Student.getName())")
 	public String getName(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+		logger.traceEntry("aroundAdviceForMethodBeginningWithSet");
 		logger.info("Before calling the method using proceed "+proceedingJoinPoint.getSignature().getName());
 		String name = (String) proceedingJoinPoint.proceed();
 		logger.info("After calling the method using proceed "+proceedingJoinPoint.getSignature().getName());
+		logger.traceExit("aroundAdviceForMethodBeginningWithSet");
 		return "Mr. " + name;
 	}
 
 	@AfterReturning("withInAutowiring()")
 	public void afterReturningAdvice(JoinPoint joinPoint) throws Throwable {
+		logger.traceEntry("afterReturningAdvice");
 		logger.info(joinPoint.getSignature().getName());
+		logger.traceExit("afterReturningAdvice");
 	}
 
 	@Before("args(java.lang.String)")
 	public void beforeTheMethodThatReceivesString(JoinPoint joinPoint) {
+		logger.traceEntry("beforeTheMethodThatReceivesString");
 		logger.info(joinPoint.getSignature().getName());
 		for (Object object : joinPoint.getArgs()) {
 			logger.info("Object "+object);
 		}
+		logger.traceExit("beforeTheMethodThatReceivesString");
 	}
 
 	/*
@@ -104,8 +114,10 @@ class AspectClassOne {
 	 */
 	@AfterReturning("methodBeginningWithSet() && args(argument)")
 	public void afterSetDepartment(JoinPoint joinPoint, Department argument) {
+		logger.traceEntry("afterSetDepartment");
 		logger.info(joinPoint.getSignature().getName());
 		logger.info("The department name " + argument.getName());
+		logger.traceExit("afterSetDepartment");
 	}
 
 	/*
@@ -113,14 +125,18 @@ class AspectClassOne {
 	 */
 	@Before("@annotation(auditable)")
 	public void annotationPointcut(Auditable auditable) {
+		logger.traceEntry("annotationPointcut");
 		String auditableMethodName = auditable.value();
 		logger.info("Annotation:  " + auditableMethodName);
+		logger.traceExit("annotationPointcut");
 	}
 
 	/* Interception for the join points which implement/extend Account */
 	@After("this(Account)")
 	public void thisMethod(JoinPoint joinPoint) {
+		logger.traceEntry("annotationPointcut");
 		logger.info(joinPoint.getSignature().getName());
+		logger.traceExit("annotationPointcut");
 	}
 
 }
