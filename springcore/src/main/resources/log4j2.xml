@@ -33,7 +33,7 @@
 		</logger>
 		<!-- The root level is info. In all the log statments will be logged till 
 			info level. That means trace and debug statements will not be logged. -->
-		<Root level="info">
+		<Root level="debug">
 			<appenderRef ref="STDOUT" />
 		</Root>
 	</Loggers>

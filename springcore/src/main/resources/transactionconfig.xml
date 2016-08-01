@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<context:component-scan base-package="com.amudhan.springcore.transaction"/>
+	<bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations" value="classpath:transaction_dev.properties"/>
+    </bean>
+	<bean id="mysqlDatasource" class="com.mysql.cj.jdbc.MysqlDataSource">
+		<property name="url" value="${datasource.jdbcUrl}"/>
+        <property name="user" value="${datasource.user}"/>
+        <property name="password" value="${datasource.password}"/>
+	</bean>
+	<!-- Hikari connection pool configuration.Creation of database connections is a resource intensive operation. 
+	HikariCP or any other connection pool reduces that need by having a pool of db connections for reuse. 
+	For every datasource one pool can be created.-->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+        <property name="dataSource" ref="mysqlDatasource"/>
+        <property name="maximumPoolSize" value="${hibernate.hikari.maximumPoolSize}"/>
+        <property name="idleTimeout" value="${hibernate.hikari.idleTimeout}"/>
+    </bean>
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+    	<constructor-arg ref="hikariConfig"></constructor-arg>
+    </bean>
+    <bean id="entityManagerFactoryBean" 
+    	class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    	<property name="dataSource" ref="dataSource"/>
+    	<property name="packagesToScan" value="com.amudhan.springcore.transaction"/>
+    	<property name="jpaVendorAdapter">
+    		<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+    	</property>
+    	<property name="jpaProperties">
+    		<props>
+    			<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+    			<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+    			<prop key="hibernate.id.new_generator_mappings">${hibernate.id.new_generator_mappings}</prop>
+    		</props>
+    	</property>
+    </bean>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    	<property name="entityManagerFactory" ref="entityManagerFactoryBean"></property>
+    </bean>
+    
+    <tx:advice id="txAdvice">
+        <!-- the transactional semantics... -->
+        <tx:attributes>
+            <!-- all methods starting with 'get' are read-only -->
+            <tx:method name="get*" read-only="true"/>
+            <!-- other methods use the default transaction settings (see below) -->
+            <tx:method name="*" rollback-for="UnsupportedOperationException"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <aop:pointcut id="serviceOperation" 
+        	expression="execution(* com.amudhan.springcore.transaction.StudentService.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation"/>
+    </aop:config>
+    
+    <!-- By using annotations, there is no need for aop configuration 
+    and transaction advice in the configuration file -->
+    <tx:annotation-driven transaction-manager = "transactionManager"/>
+    
+</beans>
